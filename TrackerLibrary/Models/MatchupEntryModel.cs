@@ -11,7 +11,7 @@ namespace TrackerLibrary.Models
         /// <summary>
         /// Represents on team in the matchup.
         /// </summary>
-        public TeamModel TeamCompeting { get; set; }
+        public TeamModel? TeamCompeting { get; set; }
 
         /// <summary>
         /// Represents the score or this patricular team.
@@ -22,7 +22,7 @@ namespace TrackerLibrary.Models
         /// Represents the matchup that this team came
         /// from as the winer.
         /// </summary>
-        public MatchupModel ParentMatchup { get; set; }
+        public MatchupModel? ParentMatchup { get; set; }
 
 
     }
