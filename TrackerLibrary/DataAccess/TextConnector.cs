@@ -16,7 +16,7 @@ namespace TrackerLibrary.DataAccess
 
         public PersonModel CreatePerson(PersonModel model)
         {
-            throw new NotImplementedException();
+            List<PersonModel> people = _PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
         }
 
         //TODO - Wire up the CreatePrize for text files.
