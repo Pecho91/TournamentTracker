@@ -125,6 +125,7 @@
             createMemberButton.TabIndex = 28;
             createMemberButton.Text = "Create Member";
             createMemberButton.UseVisualStyleBackColor = true;
+            createMemberButton.Click += createMemberButton_Click;
             // 
             // cellPhoneTextBox
             // 
