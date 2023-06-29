@@ -44,9 +44,9 @@
             firstNameTextBox = new TextBox();
             firstNameLabel = new Label();
             teamMembersListBox = new ListBox();
-            deleteSelectedMemberButton = new Button();
+            removeSelectedMemberButton = new Button();
             createTeamButton = new Button();
-            selectMemberComboBox = new ComboBox();
+            selectTeamMemberComboBox = new ComboBox();
             addNewMemberGroupBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -96,6 +96,7 @@
             addMemberButton.TabIndex = 20;
             addMemberButton.Text = "Add Member";
             addMemberButton.UseVisualStyleBackColor = true;
+            addMemberButton.Click += addMemberButton_Click;
             // 
             // addNewMemberGroupBox
             // 
@@ -208,15 +209,16 @@
             teamMembersListBox.Size = new Size(346, 574);
             teamMembersListBox.TabIndex = 22;
             // 
-            // deleteSelectedMemberButton
+            // removeSelectedMemberButton
             // 
-            deleteSelectedMemberButton.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            deleteSelectedMemberButton.Location = new Point(850, 115);
-            deleteSelectedMemberButton.Name = "deleteSelectedMemberButton";
-            deleteSelectedMemberButton.Size = new Size(112, 71);
-            deleteSelectedMemberButton.TabIndex = 27;
-            deleteSelectedMemberButton.Text = "Delete Selected";
-            deleteSelectedMemberButton.UseVisualStyleBackColor = true;
+            removeSelectedMemberButton.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            removeSelectedMemberButton.Location = new Point(850, 115);
+            removeSelectedMemberButton.Name = "removeSelectedMemberButton";
+            removeSelectedMemberButton.Size = new Size(112, 71);
+            removeSelectedMemberButton.TabIndex = 27;
+            removeSelectedMemberButton.Text = "Remove Selected";
+            removeSelectedMemberButton.UseVisualStyleBackColor = true;
+            removeSelectedMemberButton.Click += removeSelectedMemberButton_Click;
             // 
             // createTeamButton
             // 
@@ -228,13 +230,13 @@
             createTeamButton.Text = "Create Team";
             createTeamButton.UseVisualStyleBackColor = true;
             // 
-            // selectMemberComboBox
+            // selectTeamMemberComboBox
             // 
-            selectMemberComboBox.FormattingEnabled = true;
-            selectMemberComboBox.Location = new Point(40, 208);
-            selectMemberComboBox.Name = "selectMemberComboBox";
-            selectMemberComboBox.Size = new Size(382, 38);
-            selectMemberComboBox.TabIndex = 29;
+            selectTeamMemberComboBox.FormattingEnabled = true;
+            selectTeamMemberComboBox.Location = new Point(40, 208);
+            selectTeamMemberComboBox.Name = "selectTeamMemberComboBox";
+            selectTeamMemberComboBox.Size = new Size(382, 38);
+            selectTeamMemberComboBox.TabIndex = 29;
             // 
             // CreateTeamForm
             // 
@@ -242,9 +244,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDark;
             ClientSize = new Size(992, 810);
-            Controls.Add(selectMemberComboBox);
+            Controls.Add(selectTeamMemberComboBox);
             Controls.Add(createTeamButton);
-            Controls.Add(deleteSelectedMemberButton);
+            Controls.Add(removeSelectedMemberButton);
             Controls.Add(teamMembersListBox);
             Controls.Add(addNewMemberGroupBox);
             Controls.Add(addMemberButton);
@@ -280,8 +282,8 @@
         private Label cellPhoneLabel;
         private Button createMemberButton;
         private ListBox teamMembersListBox;
-        private Button deleteSelectedMemberButton;
+        private Button removeSelectedMemberButton;
         private Button createTeamButton;
-        private ComboBox selectMemberComboBox;
+        private ComboBox selectTeamMemberComboBox;
     }
 }

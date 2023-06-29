@@ -14,23 +14,58 @@ namespace TrackerUI
 {
     public partial class CreateTeamForm : Form
     {
+        private List<PersonModel> _availableTeamMembers = GlobalConfig.Connection.GetPerson_All();
+        private List<PersonModel> _selectedTeamMembers = new List<PersonModel>();
+
         public CreateTeamForm()
         {
             InitializeComponent();
+
+            //CreateSampleData();
+
+            WireUpLists();
+        }
+
+
+        private void CreateSampleData()
+        {
+            _availableTeamMembers.Add(new PersonModel { FirstName = "Tim", LastName = "Corey" });
+            _availableTeamMembers.Add(new PersonModel { FirstName = "Sue", LastName = "Storm" });
+
+            _selectedTeamMembers.Add(new PersonModel { FirstName = "Jane", LastName = "Smith" });
+            _selectedTeamMembers.Add(new PersonModel { FirstName = "Bill", LastName = "Jones" });
+        }
+
+        private void WireUpLists()
+        {
+            selectTeamMemberComboBox.DataSource = null;
+
+            selectTeamMemberComboBox.DataSource = _availableTeamMembers;
+            selectTeamMemberComboBox.DisplayMember = "FullName";
+
+            teamMembersListBox.DataSource = null;
+
+            teamMembersListBox.DataSource = _selectedTeamMembers;
+            teamMembersListBox.DisplayMember = "FullName";
+
         }
 
         private void createMemberButton_Click(object sender, EventArgs e)
         {
             if (ValidateForm())
             {
-                PersonModel p = new PersonModel();
+                PersonModel? p = new PersonModel();
 
                 p.FirstName = firstNameTextBox.Text;
                 p.LastName = lastNameTextBox.Text;
                 p.EmailAddress = emailTextBox.Text;
                 p.CellphoneNumber = cellPhoneTextBox.Text;
 
-                GlobalConfig.Connection?.CreatePerson(p);
+                p = GlobalConfig.Connection?.CreatePerson(p);
+
+                _selectedTeamMembers.Add(p);
+
+                WireUpLists();
 
                 firstNameTextBox.Text = "";
                 lastNameTextBox.Text = "";
@@ -67,6 +102,34 @@ namespace TrackerUI
             }
 
             return true;
+        }
+
+        private void addMemberButton_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)selectTeamMemberComboBox.SelectedItem;
+
+            if (p != null)
+            {
+                _availableTeamMembers.Remove(p);
+                _selectedTeamMembers.Add(p);
+
+                WireUpLists();
+            }
+            
+        }
+
+        private void removeSelectedMemberButton_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)teamMembersListBox.SelectedItem;
+
+            if (p != null)
+            {
+                _selectedTeamMembers.Remove(p);
+                _availableTeamMembers.Add(p);
+
+                WireUpLists();
+            }
+            
         }
     }
 }
