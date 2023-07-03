@@ -7,18 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TrackerLibrary;
 using TrackerLibrary.Models;
+
 
 namespace TrackerUI
 {
-    public partial class createTournamentForm : Form
+    public partial class CreateTournamentForm : Form
     {
-        List<TeamModel> availableTeams = new List<TeamModel>();
+        List<TeamModel> availableTeams = GlobalConfig.Connection.GetTeam_All();
 
-        public createTournamentForm()
+        public CreateTournamentForm()
         {
             InitializeComponent();
+
+            InitializeLists();
         }
 
+        private void InitializeLists()
+        {
+            selectTeamComboBox.DataSource = availableTeams;
+            selectTeamComboBox.DisplayMember = "TeamName";
+        }
     }
 }
