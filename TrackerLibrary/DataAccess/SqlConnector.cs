@@ -8,11 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TrackerLibrary.Models;
 
-//@PlaceNumber int,
-//@PlaceName nvarchar(50),
-//@PrizeAmount money,
-//@PrizePercentage float,
-//@id int = 0 output
 
 namespace TrackerLibrary.DataAccess
 {
