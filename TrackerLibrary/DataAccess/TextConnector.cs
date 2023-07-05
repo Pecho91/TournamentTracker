@@ -83,6 +83,11 @@ namespace TrackerLibrary.DataAccess
             return model;
         }
 
+        public TournamentModel CreateTournament(TournamentModel model)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<PersonModel> GetPerson_All()
         {
             return _PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
