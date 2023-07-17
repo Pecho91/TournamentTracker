@@ -184,19 +184,18 @@ namespace TrackerLibrary.DataAccess
 
                     connection.Execute("dbo.spMatchups_Insert", p, commandType: CommandType.StoredProcedure);
 
-                    // TODO - less19 - debugg TournamentId == null
-
                     matchup.Id = p.Get<int>("@id");
 
                     foreach (MatchupEntryModel entry in matchup.Entries)
                     {
                         p = new DynamicParameters();
+
                         p.Add("@MatchupId", matchup.Id);
                        
 
                         if (entry.ParentMatchup == null)
                         {
-                            p.Add("@ParentMatchupId", null); ;
+                            p.Add("@ParentMatchupId", null); 
                         }
                         else
                         {

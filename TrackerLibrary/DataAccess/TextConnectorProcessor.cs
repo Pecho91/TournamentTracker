@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -196,6 +197,15 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
 
             File.WriteAllLines(fileName.FullFilePath(), lines);
+        }
+
+        public static void SaveRoundsToFile(this TournamentModel model,string MatchupFile, string MatchupEntryFile)
+        {
+            // Loop through each Round
+            // Loop through each Matchup
+            // Get the id for the new Matchup and save the record
+            // Loop through each entry, get the id, and save it
+            // TODO yt 1:01h less19
         }
 
         private static string ConvertRoundListToString(List<List<MatchupModel>> rounds)
