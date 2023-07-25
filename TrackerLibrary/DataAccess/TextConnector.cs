@@ -26,7 +26,7 @@ namespace TrackerLibrary.DataAccess
 
             people.Add(model);
 
-            people.SaveToPeopleFile(GlobalConfig.PeopleFile);
+            people.SaveToPeopleFile();
 
             return model;
         }
@@ -53,7 +53,7 @@ namespace TrackerLibrary.DataAccess
             // Convert the prizes to list<string>
             // Save the list<string> to the text file
 
-            prizes.SaveToPrizeFile(GlobalConfig.PrizesFile);
+            prizes.SaveToPrizeFile();
 
             return model;
 
@@ -61,7 +61,7 @@ namespace TrackerLibrary.DataAccess
 
         public TeamModel CreateTeam(TeamModel model)
         {
-            List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels();
+            List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(GlobalConfig.PeopleFile);
 
             int currentId = 1;
 
@@ -74,7 +74,7 @@ namespace TrackerLibrary.DataAccess
 
             teams.Add(model);
 
-            teams.SaveToTeamFile(GlobalConfig.TeamFile);
+            teams.SaveToTeamFile();
 
             return model;
         }
@@ -84,7 +84,7 @@ namespace TrackerLibrary.DataAccess
             List<TournamentModel> tournaments = GlobalConfig.TournamentFile
                  .FullFilePath()
                  .LoadFile()
-                 .ConvertToTournamentModels(GlobalConfig.TeamFile, GlobalConfig.PeopleFile, GlobalConfig.PrizesFile);
+                 .ConvertToTournamentModels();
 
             int currentId = 1;
 
@@ -95,11 +95,11 @@ namespace TrackerLibrary.DataAccess
 
             model.Id = currentId;
 
-            model.SaveRoundsToFile(GlobalConfig.MatchupFile, GlobalConfig.MatchupEntryFile);
+            model.SaveRoundsToFile();
 
             tournaments.Add(model);
 
-            tournaments.SaveToTournamentFile(GlobalConfig.TournamentFile);
+            tournaments.SaveToTournamentFile();
         }
 
         public List<PersonModel> GetPerson_All()
@@ -109,7 +109,7 @@ namespace TrackerLibrary.DataAccess
 
         public List<TeamModel> GetTeam_All()
         {
-            return GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels();
+            return GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(GlobalConfig.PeopleFile);
         }
     }
 }
