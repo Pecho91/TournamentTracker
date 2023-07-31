@@ -12,6 +12,9 @@ namespace TrackerLibrary.Models
         /// The unique identifier for the matchup entry.
         /// </summary>
         public int Id { get; set; }
+
+        //TODO -21min less21
+
         /// <summary>
         /// Represents on team in the matchup.
         /// </summary>

@@ -130,7 +130,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 {
                    tm.EnteredTeams.Add(teams.Where(x => x.Id == int.Parse(id)).First());
                 }
-                // TODO - less21
+                
                 if (cols[4].Length > 0)
                 {
                     string[] prizeIds = cols[4].Split('|');
