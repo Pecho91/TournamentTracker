@@ -226,6 +226,7 @@ namespace TrackerLibrary.DataAccess
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
                 output = connection.Query<TournamentModel>("dbo.spTournaments_GetAll").ToList();
+                var p = new DynamicParameters();
 
                 foreach (TournamentModel t in output)
                 {
@@ -237,14 +238,14 @@ namespace TrackerLibrary.DataAccess
 
                     foreach (TeamModel team in t.EnteredTeams)
                     {
-                        var p = new DynamicParameters();
+                        p = new DynamicParameters();
                         p.Add("@TeamId", team.Id);
 
                         team.TeamMembers = connection.Query<PersonModel>("dbo.spTeamMembers_GetByTeam", p, commandType: CommandType.StoredProcedure).ToList();
                     }
 
                     // Populated Rounds
-                    var p = new DynamicParameters();
+                    p = new DynamicParameters();
                     p.Add("@TournamentId", t.Id);
 
                     List<MatchupModel>  matchups = connection.Query<MatchupModel>("dbo.spMatchups_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
@@ -254,10 +255,51 @@ namespace TrackerLibrary.DataAccess
                         p = new DynamicParameters();
                         p.Add("@MatchupId", m.Id);
 
+                        // Populated Rounds
                         m.Entries = connection.Query<MatchupEntryModel>("dbo.spMatchupEntries_GetByMatchup", p, commandType: CommandType.StoredProcedure).ToList();
-                    }
-                }
 
+                        // populate each matchup  (1 model)
+
+                        List<TeamModel> allTeams = GetTeam_All();
+
+                        if (m.WinnerId > 0)
+                        {
+                            m.Winner = allTeams.Where(x => x.Id == m.WinnerId).First();
+                        }
+
+                        foreach (var me in m.Entries)
+                        {
+                            if (me.TeamCompetingId > 0)
+                            {
+                                me.TeamCompeting = allTeams.Where(x => x.Id == me.TeamCompetingId).First();
+                            }
+
+                            if (me.ParentMatchupId > 0)
+                            {
+                                me.ParentMatchup = matchups.Where(x => x.Id == me.ParentMatchupId).First();
+                            }
+                        }
+                    }
+
+                    // List<List<MatchupModel>>
+                    List<MatchupModel> currRow = new List<MatchupModel>();
+                    int currRound = 1;
+
+                    foreach (MatchupModel m in matchups)
+                    {
+                        if (m.MatchupRound > currRound)
+                        {
+                            t.Rounds.Add(currRow);
+                            currRow = new List<MatchupModel>();
+                            currRound += 1;
+                        }
+
+                        currRow.Add(m);
+                    }
+
+                    t.Rounds.Add(currRow);
+                }
+                // TODO - less21, 40:00
             }
 
             return output;
