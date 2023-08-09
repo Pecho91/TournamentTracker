@@ -23,8 +23,7 @@ namespace TrackerLibrary
             model.Rounds.Add(CreateFirstRound(byes, randomizedTeams));
 
             CreateOtherRounds(model, rounds);
-
-            // TODO - video20(less19)
+          
         }
 
         private static void CreateOtherRounds(TournamentModel model, int rounds)

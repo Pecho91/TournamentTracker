@@ -18,7 +18,7 @@ namespace TrackerLibrary.DataAccess
         /// Saves a new people to database
         /// </summary>
         /// <param name="model">The people information</param>
-        /// <returns>The people information, icluding the unique identifier</returns>
+        /// <returns>The people information, including the unique identifier</returns>
         public PersonModel CreatePerson(PersonModel model)
         {
            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
@@ -231,9 +231,15 @@ namespace TrackerLibrary.DataAccess
                 foreach (TournamentModel t in output)
                 {
                     // Populate prizes
+                    p = new DynamicParameters();
+                    p.Add("@TournamentId", t.Id);
+
                     t.Prizes = connection.Query<PrizeModel>("dbo.spPrizes_GetByTournament").ToList();
 
                     // Populated Teams
+                    p = new DynamicParameters();
+                    p.Add("@TournamentId", t.Id);
+
                     t.EnteredTeams = connection.Query<TeamModel>("dbo.spTeam_GetByTournament").ToList();
 
                     foreach (TeamModel team in t.EnteredTeams)
@@ -299,7 +305,7 @@ namespace TrackerLibrary.DataAccess
 
                     t.Rounds.Add(currRow);
                 }
-                // TODO - less21, 40:00
+                
             }
 
             return output;
