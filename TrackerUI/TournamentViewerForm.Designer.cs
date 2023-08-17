@@ -82,6 +82,7 @@
             roundComboBox.Name = "roundComboBox";
             roundComboBox.Size = new Size(249, 38);
             roundComboBox.TabIndex = 6;
+            roundComboBox.SelectedIndexChanged += roundComboBox_SelectedIndexChanged;
             // 
             // unplayedOnlyCheckBox
             // 
@@ -102,6 +103,7 @@
             matchupListBox.Name = "matchupListBox";
             matchupListBox.Size = new Size(346, 394);
             matchupListBox.TabIndex = 8;
+            matchupListBox.SelectedIndexChanged += matchupListBox_SelectedIndexChanged;
             // 
             // teamOneLabel
             // 
