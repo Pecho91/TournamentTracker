@@ -29,7 +29,7 @@ namespace TrackerUI
         }
 
         private void WireUpLists()
-        {          
+        {
             roundComboBox.DataSource = rounds;
             matchupListBox.DataSource = selectedMatchups;
             matchupListBox.DisplayMember = "DisplayName";
@@ -58,7 +58,7 @@ namespace TrackerUI
         {
             LoadMatchups((int)roundComboBox.SelectedItem);
         }
-        // debugg nullexception m.Entries, less23;
+
         private void LoadMatchups(int round)
         {
             foreach (List<MatchupModel> matchups in _tournament.Rounds)
@@ -69,22 +69,53 @@ namespace TrackerUI
                     selectedMatchups.Clear();
                     foreach (MatchupModel m in matchups)
                     {
-                        selectedMatchups.Add(m);
+                        if (m.Winner == null || !unplayedOnlyCheckBox.Checked)
+                        {
+                            selectedMatchups.Add(m);
+                        }
                     }
                 }
             }
 
-            LoadMatchup(selectedMatchups.First());
+            if (selectedMatchups.Count > 0) 
+            {
+                LoadMatchup(selectedMatchups.First()); 
+            }
+
+            DisplayMatchupInfo();
+        }
+
+        private void DisplayMatchupInfo()
+        {
+            bool isVisible = (selectedMatchups.Count > 0);
+
+            teamOneLabel.Visible = isVisible;
+            teamOneScoreLabel.Visible = isVisible;
+            teamOneScoreTextBox.Visible = isVisible;
+
+            teamTwoLabel.Visible = isVisible;        
+            teamTwoScoreLabel.Visible = isVisible;
+            teamTwoScoreTextBox.Visible = isVisible;
+
+            versusLabel.Visible = isVisible;
+            scoreButton.Visible = isVisible;
         }
 
         private void LoadMatchup(MatchupModel m)
         {
-            
+            if (m == null || m.Entries == null)
+            {
+                // Handle the case where the input or Entries are null.
+                // You might want to show an error message or take appropriate action.
+                Console.WriteLine("input and entries are null");
+                return;
+            }
+
             for (int i = 0; i < m.Entries.Count; i++)
             {
                 if (i == 0)
                 {
-                    if (m.Entries[0].TeamCompeting != null)
+                    if (m.Entries[0]?.TeamCompeting != null)
                     {
                         teamOneLabel.Text = m.Entries[0].TeamCompeting?.TeamName;
                         teamOneScoreTextBox.Text = m.Entries[0].Score.ToString();
@@ -101,7 +132,7 @@ namespace TrackerUI
 
                 if (i == 1)
                 {
-                    if (m.Entries[1].TeamCompeting != null)
+                    if (m.Entries[1]?.TeamCompeting != null)
                     {
                         teamTwoLabel.Text = m.Entries[1].TeamCompeting?.TeamName;
                         teamTwoScoreTextBox.Text = m.Entries[1].Score.ToString();
@@ -119,5 +150,81 @@ namespace TrackerUI
         {
             LoadMatchup((MatchupModel)matchupListBox.SelectedItem);
         }
+
+        private void unplayedOnlyCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadMatchups((int)roundComboBox.SelectedItem);
+        }
+
+        private void scoreButton_Click(object sender, EventArgs e)
+        {
+            MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
+            double teamOneScore = 0;
+            double teamTwoScore = 0;
+
+            if (m == null || m.Entries == null)
+            {
+               
+                Console.WriteLine("input and entries are null");
+                return;
+            }
+
+            for (int i = 0; i < m.Entries.Count; i++)
+            {
+                if (i == 0)
+                {
+                    if (m.Entries[0]?.TeamCompeting != null)
+                    {                        
+                        bool scoreValid = double.TryParse(teamOneScoreTextBox.Text, out teamOneScore);
+
+                        if (scoreValid)
+                        {
+                            m.Entries[0].Score = teamOneScore;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please enter a valid score for team 1.");
+                            return;
+                        }
+                    }
+                    
+                }
+
+                if (i == 1)
+                {
+                    if (m.Entries[1]?.TeamCompeting != null)
+                    {                        
+                        bool scoreValid = double.TryParse(teamTwoScoreTextBox.Text, out teamTwoScore);
+
+                        if (scoreValid)
+                        {
+                            m.Entries[1].Score = teamTwoScore;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please enter a valid score for team 2.");
+                            return;
+                        }
+                    }                
+                }
+            }
+
+            if (teamOneScore > teamTwoScore)
+            {
+                // team one wins
+                m.Winner = m.Entries[0].TeamCompeting;
+            }
+            else if (teamTwoScore > teamOneScore)
+            {
+                m.Winner = m.Entries[1].TeamCompeting;
+            }
+            else
+            {
+                MessageBox.Show("i do not handle tie games.");
+            }
+
+            LoadMatchups((int)roundComboBox.SelectedItem);
+
+        }
     }
-}
+}         //less 23 (31min)
