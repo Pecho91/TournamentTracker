@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using TrackerLibrary;
 using TrackerLibrary.Models;
 using Windows.Networking.Sockets;
 
@@ -225,6 +226,8 @@ namespace TrackerUI
 
             LoadMatchups((int)roundComboBox.SelectedItem);
 
+            GlobalConfig.Connection?.UpdateMatchup(m);
+
         }
     }
-}         //less 23 (31min)
+}         //less 23 (52min) - textconnector
