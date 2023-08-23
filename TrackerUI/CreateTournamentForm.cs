@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TrackerLibrary;
 using TrackerLibrary.Models;
-
+using Windows.Security.EnterpriseData;
 
 namespace TrackerUI
 {
@@ -140,7 +140,7 @@ namespace TrackerUI
             // Create all of team entries
             GlobalConfig.Connection.CreateTournament(tm);
 
-            
+            this.Close();
         }
     }
 }

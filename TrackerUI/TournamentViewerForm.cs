@@ -224,10 +224,27 @@ namespace TrackerUI
                 MessageBox.Show("i do not handle tie games.");
             }
 
+            foreach (List < MatchupModel> round in _tournament.Rounds)
+            {
+                foreach (MatchupModel rm in round)
+                {
+                    foreach (MatchupEntryModel me in rm.Entries) 
+                    {
+                        
+                        if (me.ParentMatchup?.Id == m.Id)
+                        {
+                            me.TeamCompeting = m.Winner;
+                            GlobalConfig.Connection?.UpdateMatchup(rm);
+                        }
+                       
+                    }
+                }
+            }
+
             LoadMatchups((int)roundComboBox.SelectedItem);
 
             GlobalConfig.Connection?.UpdateMatchup(m);
 
         }
     }
-}         //less 23 (52min) - textconnector
+}         //less 24 (0min) -txt bug
