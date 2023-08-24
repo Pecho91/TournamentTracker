@@ -37,7 +37,15 @@ namespace TrackerLibrary.Models
         /// The number that represents th percentage of the overall take or zero if it is not used.
         /// The percentage is a ffraction of 1 (so 0.5 for 50%).
         /// </summary>
-        public double PrizePercentage { get; set; }
+        public double PrizePercentage { get; set; }     
+
+        /// <summary>
+        /// Blank Constructor
+        /// </summary>
+        public PrizeModel() 
+        {
+        
+        }
 
         public PrizeModel(string placeName, string placeNumber, string prizeAmount, string prizePercentage)
         {

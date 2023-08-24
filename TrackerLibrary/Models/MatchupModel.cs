@@ -43,7 +43,7 @@ namespace TrackerLibrary.Models
                 {
                     if (me.TeamCompeting != null)
                     {
-                        if (output.Length == 0)
+                        if (output?.Length == 0)
                         {
                             output = me.TeamCompeting.TeamName;
                         }

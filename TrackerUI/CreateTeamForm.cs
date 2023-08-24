@@ -64,7 +64,7 @@ namespace TrackerUI
                 p.EmailAddress = emailTextBox.Text;
                 p.CellphoneNumber = cellPhoneTextBox.Text;
 
-                p = GlobalConfig.Connection?.CreatePerson(p);
+                GlobalConfig.Connection?.CreatePerson(p);
 
                 _selectedTeamMembers.Add(p);
 
@@ -142,7 +142,7 @@ namespace TrackerUI
             t.TeamName = teamNameTextBox.Text;
             t.TeamMembers = _selectedTeamMembers;
 
-            GlobalConfig.Connection.CreateTeam(t);
+            GlobalConfig.Connection?.CreateTeam(t);
 
             _callingForm.TeamComplete(t);
             this.Close();

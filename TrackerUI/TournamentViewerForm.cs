@@ -108,7 +108,7 @@ namespace TrackerUI
             {
                 // Handle the case where the input or Entries are null.
                 // You might want to show an error message or take appropriate action.
-                Console.WriteLine("input and entries are null");
+                Console.WriteLine("m,entries == null");
                 return;
             }
 
@@ -116,7 +116,7 @@ namespace TrackerUI
             {
                 if (i == 0)
                 {
-                    if (m.Entries[0]?.TeamCompeting != null)
+                    if (m.Entries[0].TeamCompeting != null)
                     {
                         teamOneLabel.Text = m.Entries[0].TeamCompeting?.TeamName;
                         teamOneScoreTextBox.Text = m.Entries[0].Score.ToString();
@@ -133,7 +133,7 @@ namespace TrackerUI
 
                 if (i == 1)
                 {
-                    if (m.Entries[1]?.TeamCompeting != null)
+                    if (m.Entries[1].TeamCompeting != null)
                     {
                         teamTwoLabel.Text = m.Entries[1].TeamCompeting?.TeamName;
                         teamTwoScoreTextBox.Text = m.Entries[1].Score.ToString();
@@ -210,41 +210,9 @@ namespace TrackerUI
                 }
             }
 
-            if (teamOneScore > teamTwoScore)
-            {
-                // team one wins
-                m.Winner = m.Entries[0].TeamCompeting;
-            }
-            else if (teamTwoScore > teamOneScore)
-            {
-                m.Winner = m.Entries[1].TeamCompeting;
-            }
-            else
-            {
-                MessageBox.Show("i do not handle tie games.");
-            }
-
-            foreach (List < MatchupModel> round in _tournament.Rounds)
-            {
-                foreach (MatchupModel rm in round)
-                {
-                    foreach (MatchupEntryModel me in rm.Entries) 
-                    {
-                        
-                        if (me.ParentMatchup?.Id == m.Id)
-                        {
-                            me.TeamCompeting = m.Winner;
-                            GlobalConfig.Connection?.UpdateMatchup(rm);
-                        }
-                       
-                    }
-                }
-            }
-
+            TournamentLogic.UpdateTournamentResults(_tournament);
+            
             LoadMatchups((int)roundComboBox.SelectedItem);
-
-            GlobalConfig.Connection?.UpdateMatchup(m);
-
         }
     }
-}         //less 24 (0min) -txt bug
+}         //TODO less 24 (15min) - txt bug / refactoring

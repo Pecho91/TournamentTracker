@@ -75,7 +75,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             return output;
         }
 
-        public static List<TeamModel> ConvertToTeamModels(this List<string> lines, string peopleFile)
+        public static List<TeamModel> ConvertToTeamModels(this List<string> lines)
         {
             // id, team name, list of ids separated by the pipe
             // 3,Tim's Team, 1|3|5
@@ -111,7 +111,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             // id, TournamentName, EntryFee, (id|id|id - Entered Teams),
             // (id|id|id - Prizes), (Rounds - id^id^id|id^id^id|id^id^id)
             List<TournamentModel> output = new List<TournamentModel>();
-            List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(GlobalConfig.PeopleFile);
+            List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels();
             List<PrizeModel> prizes = GlobalConfig.PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
             List<MatchupModel> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile().ConvertToMatchupModels();
 
@@ -297,7 +297,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             return output;
         }
 
-        private static TeamModel LookupTeamById(int id)
+        private static TeamModel? LookupTeamById(int id)
         {
             List<string> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile();
 
@@ -309,7 +309,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 {
                     List<string> matchingTeams = new List<string>();
                     matchingTeams.Add(team);
-                    return matchingTeams.ConvertToTeamModels(GlobalConfig.PeopleFile).First();
+                    return matchingTeams.ConvertToTeamModels().First();
                 }
             }
 
@@ -317,7 +317,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             
         }
 
-        private static MatchupModel LookupMatchupById(int id)
+        private static MatchupModel? LookupMatchupById(int id)
         {
             List<string> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile();
 
