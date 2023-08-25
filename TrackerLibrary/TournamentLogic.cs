@@ -79,7 +79,7 @@ namespace TrackerLibrary
         private static void MarkWinnerInMatchups(List<MatchupModel> models)
         { 
             // greater or lesser
-            string greaterWins = ConfigurationManager.AppSettings["greaterWins"];
+            string? greaterWins = ConfigurationManager.AppSettings["greaterWins"];
 
             foreach (MatchupModel m in models)
             {

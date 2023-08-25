@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using TrackerLibrary;
 using TrackerLibrary.Models;
@@ -108,7 +109,7 @@ namespace TrackerUI
             {
                 // Handle the case where the input or Entries are null.
                 // You might want to show an error message or take appropriate action.
-                Console.WriteLine("m,entries == null");
+                MessageBox.Show("m,entries == null");
                 return;
             }
 
@@ -157,8 +158,50 @@ namespace TrackerUI
             LoadMatchups((int)roundComboBox.SelectedItem);
         }
 
+        private string ValidateData()
+        {
+            string output = "";
+
+            double teamOneScore = 0;
+            double teamTwoScore = 0;
+
+            bool scoreOneValid = double.TryParse(teamOneScoreTextBox.Text, out teamOneScore);
+            bool scoreTwoValid = double.TryParse(teamTwoScoreTextBox.Text, out teamTwoScore);
+
+            if (!scoreOneValid)
+            {
+                output = "The score One value is not a valid number."; 
+            }
+
+            else if (!scoreTwoValid)
+            {
+                output = "The score Two value is not a valid number.";
+            }
+
+
+            else if (teamOneScore == 0 && teamTwoScore == 0)
+            {
+                output = "You did not enter a score for either team";
+            }
+
+            else if (teamOneScore == teamTwoScore)
+            {
+                output = "We do not allow ties in this application";
+            }
+
+            return output;
+        }
+
         private void scoreButton_Click(object sender, EventArgs e)
         {
+            string errorMessage = ValidateData();
+
+            if (errorMessage.Length > 0)
+            {
+                MessageBox.Show($"Input Error: {errorMessage}");
+                return;
+            }
+
             MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
             double teamOneScore = 0;
             double teamTwoScore = 0;
@@ -166,7 +209,7 @@ namespace TrackerUI
             if (m == null || m.Entries == null)
             {
                
-                Console.WriteLine("input and entries are null");
+                MessageBox.Show("input and entries are null");
                 return;
             }
 
@@ -210,9 +253,17 @@ namespace TrackerUI
                 }
             }
 
-            TournamentLogic.UpdateTournamentResults(_tournament);
+            try
+            {
+                TournamentLogic.UpdateTournamentResults(_tournament);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"The application had the follownig error: {ex.Message}");
+                return;
+            }
             
             LoadMatchups((int)roundComboBox.SelectedItem);
         }
     }
-}         //TODO less 24 (15min) - txt bug / refactoring
+}         //TODO less 26 (0,min)
