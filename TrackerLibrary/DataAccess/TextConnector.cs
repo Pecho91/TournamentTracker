@@ -29,7 +29,6 @@ namespace TrackerLibrary.DataAccess
             people.SaveToPeopleFile();
         }
 
-        //TODO - Wire up the CreatePrize for text files.
         public void CreatePrize(PrizeModel model)
         {
             // Load the text file Convert the text to List<PrizeModel>

@@ -106,10 +106,7 @@ namespace TrackerUI
         private void LoadMatchup(MatchupModel m)
         {
             if (m == null || m.Entries == null)
-            {
-                // Handle the case where the input or Entries are null.
-                // You might want to show an error message or take appropriate action.
-                MessageBox.Show("m,entries == null");
+            {             
                 return;
             }
 
@@ -207,8 +204,7 @@ namespace TrackerUI
             double teamTwoScore = 0;
 
             if (m == null || m.Entries == null)
-            {
-               
+            {          
                 MessageBox.Show("input and entries are null");
                 return;
             }
@@ -266,4 +262,4 @@ namespace TrackerUI
             LoadMatchups((int)roundComboBox.SelectedItem);
         }
     }
-}         //TODO less 26 (0,min)
+}       
