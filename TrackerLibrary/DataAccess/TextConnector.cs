@@ -10,7 +10,7 @@ namespace TrackerLibrary.DataAccess
 {
     public class TextConnector : IDataConnection
     {
-
+        
         public void CreatePerson(PersonModel model)
         {
             List<PersonModel> people = GlobalConfig.PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
@@ -90,6 +90,20 @@ namespace TrackerLibrary.DataAccess
             model.SaveRoundsToFile();
 
             tournaments.Add(model);
+
+            tournaments.SaveToTournamentFile();
+
+            TournamentLogic.UpdateTournamentResults(model);
+        }
+
+        public void CompleteTournament(TournamentModel model)
+        {
+            List<TournamentModel> tournaments = GlobalConfig.TournamentFile
+                .FullFilePath()
+                .LoadFile()
+                .ConvertToTournamentModels();
+
+            tournaments.Remove(model);
 
             tournaments.SaveToTournamentFile();
 
