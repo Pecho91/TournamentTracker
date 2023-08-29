@@ -193,7 +193,7 @@ namespace TrackerLibrary
             {
                 foreach (PersonModel p in t.TeamMembers)
                 {
-                    if (p.EmailAddress.Length > 0)
+                    if (p.EmailAddress?.Length > 0)
                     {
                         bcc.Add(p.EmailAddress); 
                     }
